@@ -15,7 +15,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0   # wichtig für rebase
+          fetch-depth: 0
+
+      # 👉 steh absolut auf dem neuesten Remote-Stand, bevor wir Dateien anfassen
+      - name: Sync to latest origin/main
+        run: |
+          git fetch origin main
+          git checkout -B main origin/main
 
       - name: Build recent projects list
         id: build
@@ -48,7 +54,6 @@ jobs:
             const path = 'README.md';
             const start = '<!-- RECENT_PROJECTS_START -->';
             const end   = '<!-- RECENT_PROJECTS_END -->';
-
             if (!fs.existsSync(path)) core.setFailed('README.md nicht gefunden');
 
             let md = fs.readFileSync(path, 'utf8');
@@ -60,7 +65,7 @@ jobs:
               if (updated !== md) fs.writeFileSync(path, updated);
             }
 
-      - name: Commit & Push (with rebase)
+      - name: Commit & Push (fast-forward)
         run: |
           if git diff --quiet; then
             echo "No changes."
@@ -73,8 +78,8 @@ jobs:
           git add README.md
           git commit -m "chore: update recent projects (daily)"
 
-          # Rebase gegen die aktuelle main, um Fast-Forward-Konflikte zu vermeiden
+          # Sicherstellen, dass wir weiterhin auf origin/main basieren (falls zwischenzeitlich neue Commits kamen)
           git fetch origin main
-          git pull --rebase origin main
+          git rebase origin/main
 
           git push origin HEAD:main
