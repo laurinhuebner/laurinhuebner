@@ -2,8 +2,8 @@ name: Update README with latest projects
 
 on:
   schedule:
-    - cron: "0 6 * * *"   # täglich 06:00 UTC
-  workflow_dispatch:
+    - cron: '0 8 * * *'   # täglich 08:00 UTC
+  workflow_dispatch:       # manueller Start möglich
 
 permissions:
   contents: write
@@ -12,110 +12,48 @@ jobs:
   update-readme:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Build recent projects list
-        id: build
+      - name: Fetch recent repos
+        id: repos
         uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const username = 'laurinhuebner';
-
-            // Repos holen (öffentlich, neueste zuerst)
             const { data: repos } = await github.rest.repos.listForUser({
               username,
-              per_page: 100,
-              sort: 'updated'
-            });
-
-            // filtern: keine Forks, keine privaten, Profil-Repo optional zulassen
-            const filtered = repos.filter(r => !r.fork && !r.private);
-
-            // Top 5 formatieren
-            const list = filtered.slice(0, 5).map(r => {
-              const desc = r.description ? r.description.replace(/\r?\n/g, ' ').trim() : 'Keine Beschreibung';
-name: Update README with latest projects
-
-on:
-  schedule:
-    - cron: '0 8 * * *'   # Läuft täglich um 08:00 UTC
-  workflow_dispatch:       # Manuell triggerbar
-
-jobs:
-  update-readme:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Fetch recent repos
-        uses: actions/github-script@v6
-        id: repos
-        with:
-name: Update README with latest projects
-
-on:
-  schedule:
-    - cron: '0 8 * * *'   # Läuft täglich um 08:00 UTC
-  workflow_dispatch:       # Manuell triggerbar
-
-jobs:
-  update-readme:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Fetch recent repos
-        uses: actions/github-script@v6
-        id: repos
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const { data: repos } = await github.repos.listForUser({
-              username: 'laurinhuebner',
               sort: 'updated',
               direction: 'desc',
               per_page: 5
             });
+            const list = repos
+              .filter(r => !r.fork && !r.private)
+              .map(r => `- [**${r.name}**](${r.html_url})  \n  *${r.description?.replace(/\r?\n/g,' ').trim() || "Keine Beschreibung"}*`)
+              .join("\n") || "*Noch keine öffentlichen Repos*";
+            core.setOutput('projects', list);
 
-            return repos
-              .filter(r => !r.fork)
-              .map(r => `- [**${r.name}**](${r.html_url})  \n  *${r.description || "Keine Beschreibung"}*`)
-              .join("\n");
+      - name: Update README section (RECENT_PROJECTS)
+        uses: actions/github-script@v7
+        env:
+          PROJECTS: ${{ steps.repos.outputs.projects }}
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+            const path = 'README.md';
+            const start = '<!-- RECENT_PROJECTS_START -->';
+            const end   = '<!-- RECENT_PROJECTS_END -->';
+            if (!fs.existsSync(path)) core.setFailed('README.md nicht gefunden');
 
-      - name: Update README
-        run: |
-          CONTENT="$(cat README.md)"
-          NEW_SECTION="<!-- RECENT_PROJECTS_START -->\n${{ steps.repos.outputs.result }}\n<!-- RECENT_PROJECTS_END -->"
-          echo "$CONTENT" | sed -E "/<!-- RECENT_PROJECTS_START -->/,/<!-- RECENT_PROJECTS_END -->/c${NEW_SECTION}" > README.md
-
-      - name: Commit changes
-        run: |
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git add README.md
-          git commit -m "chore: update recent projects" || echo "No changes to commit"
-          git push git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git add README.md
-          git commit -m "chore: update recent projects" || echo "No changes to commit"
-          git push eIdx === -1 || eIdx < sIdx) {
+            let md = fs.readFileSync(path, 'utf8');
+            const s = md.indexOf(start), e = md.indexOf(end);
+            if (s === -1 || e === -1 || e < s) {
               core.setFailed(`Marker nicht gefunden: ${start} / ${end}`);
-              return;
-            }
-
-            const before = md.slice(0, sIdx + start.length);
-            const after  = md.slice(eIdx);
-            const replacement = `\n${process.env.PROJECTS}\n`;
-            const updated = before + replacement + after;
-
-            if (updated !== md) {
-              fs.writeFileSync(path, updated);
-              core.info('README.md aktualisiert');
             } else {
-              core.info('Keine Änderungen nötig');
+              const updated = md.slice(0, s + start.length) + '\n' + process.env.PROJECTS + '\n' + md.slice(e);
+              if (updated !== md) fs.writeFileSync(path, updated);
             }
 
       - name: Commit & Push
