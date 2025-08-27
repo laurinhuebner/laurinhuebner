@@ -15,9 +15,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 0   # vollständige Historie für Rebase
 
-      # 👉 steh absolut auf dem neuesten Remote-Stand, bevor wir Dateien anfassen
+      # Stelle sicher, dass wir exakt auf origin/main basieren
       - name: Sync to latest origin/main
         run: |
           git fetch origin main
@@ -39,7 +39,7 @@ jobs:
             const list = repos
               .filter(r => !r.fork && !r.private)
               .slice(0, 5)
-              .map(r => `- [**${r.name}**](${r.html_url})  \n  *${(r.description||'Keine Beschreibung').replace(/\r?\n/g,' ').trim()}*`)
+              .map(r => `- [**${r.name}**](${r.html_url})  \n  *${(r.description || 'Keine Beschreibung').replace(/\r?\n/g,' ').trim()}*`)
               .join("\n") || "*Noch keine öffentlichen Repos*";
             core.setOutput('projects', list);
 
@@ -49,24 +49,31 @@ jobs:
           PROJECTS: ${{ steps.build.outputs.projects }}
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
+        # ersetzt NUR den Marker-Block
           script: |
             const fs = require('fs');
             const path = 'README.md';
             const start = '<!-- RECENT_PROJECTS_START -->';
             const end   = '<!-- RECENT_PROJECTS_END -->';
             if (!fs.existsSync(path)) core.setFailed('README.md nicht gefunden');
-
             let md = fs.readFileSync(path, 'utf8');
             const s = md.indexOf(start), e = md.indexOf(end);
             if (s === -1 || e === -1 || e < s) {
               core.setFailed(`Marker nicht gefunden: ${start} / ${end}`);
             } else {
               const updated = md.slice(0, s + start.length) + '\n' + process.env.PROJECTS + '\n' + md.slice(e);
-              if (updated !== md) fs.writeFileSync(path, updated);
+              if (updated !== md) {
+                fs.writeFileSync(path, updated);
+                core.info('README aktualisiert.');
+              } else {
+                core.info('Keine Änderungen.');
+              }
             }
 
-      - name: Commit & Push (fast-forward)
+      - name: Commit & Push (rebase with retry)
+        shell: bash
         run: |
+          set -e
           if git diff --quiet; then
             echo "No changes."
             exit 0
@@ -78,8 +85,23 @@ jobs:
           git add README.md
           git commit -m "chore: update recent projects (daily)"
 
-          # Sicherstellen, dass wir weiterhin auf origin/main basieren (falls zwischenzeitlich neue Commits kamen)
-          git fetch origin main
-          git rebase origin/main
+          # Bis zu 3 Versuche: rebase gegen origin/main, dann push
+          for i in 1 2 3; do
+            echo "Attempt $i: rebase & push"
+            git fetch origin main
+            # Falls währenddessen neue Commits kamen: rebase unsere Änderung oben drauf
+            if ! git rebase origin/main; then
+              echo "Rebase failed, aborting rebase…"
+              git rebase --abort || true
+              exit 1
+            fi
+            if git push origin HEAD:main; then
+              echo "Push successful on attempt $i"
+              exit 0
+            fi
+            echo "Push rejected, retrying…"
+            sleep $((RANDOM % 5 + 2))
+          done
 
-          git push origin HEAD:main
+          echo "Failed to push after retries"
+          exit 1
