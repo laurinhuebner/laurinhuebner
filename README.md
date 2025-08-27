@@ -8,7 +8,8 @@
 - 🖥️ Home-Server (Linux, Backups, Netzwerkdienste, VPN/WireGuard)
 - 🐍 Python-Skripte (Exposés, Blog-Tools, kleine Utilities)
 - 🌐 Lebenslauf als Website mit GitHub Pages → [laurinhuebner.github.io/resume](https://laurinhuebner.github.io/resume/)
-- 🎮 Gaming & neue Technologien · 🌱 Garten/DIY
+- 🎮 Gaming & neue Technologien
+- 🌱 Garten/DIY
 
 ---
 
