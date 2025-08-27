@@ -26,12 +26,14 @@ jobs:
           script: |
             const username = context.repo.owner;
 
+            // Repos holen
             const { data: repos } = await github.rest.repos.listForUser({
               username,
               per_page: 100,
               sort: "updated"
             });
 
+            // Öffentliche, keine Forks, nicht das Profil-Repo
             const filtered = repos.filter(r =>
               !r.fork && !r.private && r.name.toLowerCase() !== username.toLowerCase()
             );
