@@ -1,16 +1,14 @@
 # 👋 Hallo, ich bin Laurin Hübner
 
-💻 **IT-Interessierter Quereinsteiger** mit Erfahrung im Verkauf und starker Technik-Affinität.  
-Ich betreibe einen eigenen Home-Server, experimentiere mit Linux und setze kleine Automatisierungs- und Webprojekte um.  
-Mein Ziel: langfristige Perspektive als **Fachinformatiker für Systemintegration**.
+💻 **IT-Interessierter Quereinsteiger** mit viel Neugier: Home-Server (Linux), kleine Automatisierungen mit Python, Web-Basteleien – Ziel: **Fachinformatiker Systemintegration**.
 
 ---
 
 ## 🚀 Über mich
-- 🖥️ Home-Server (Linux, Backups, Netzwerkdienste, VPN)
-- 🐍 Python-Skripte für Automatisierung (Exposés, Blog-Tools, kleine Utilities)
-- 🌐 Lebenslauf als Website mit GitHub Pages
-- 🌱 Garten/DIY & 🎮 Gaming
+- 🖥️ Home-Server (Linux, Backups, Netzwerkdienste, VPN/WireGuard)
+- 🐍 Python-Skripte (Exposés, Blog-Tools, kleine Utilities)
+- 🌐 Lebenslauf als Website mit GitHub Pages → [laurinhuebner.github.io/resume](https://laurinhuebner.github.io/resume/)
+- 🎮 Gaming & neue Technologien · 🌱 Garten/DIY
 
 ---
 
@@ -23,9 +21,16 @@ Mein Ziel: langfristige Perspektive als **Fachinformatiker für Systemintegratio
 
 ---
 
+## 🏷️ Top-Sprachen (automatisch)
+<!-- TOP_LANGS_START -->
+*(wird automatisch befüllt)*
+<!-- TOP_LANGS_END -->
+
+---
+
 ## 🧭 Neueste Projekte
 <!-- RECENT_PROJECTS_START -->
-- [resume](https://github.com/laurinhuebner/resume) _(updated 2025-08-27)_
+*(wird automatisch befüllt)*
 <!-- RECENT_PROJECTS_END -->
 
 > 🔒 Private Repos tauchen hier nicht auf.
@@ -41,6 +46,3 @@ Mein Ziel: langfristige Perspektive als **Fachinformatiker für Systemintegratio
 - 🌍 [Lebenslauf](https://laurinhuebner.github.io/resume/)
 - 📇 [Digitale Visitenkarte](https://laurinhuebner.github.io/resume/card)
 - ✉️ [bewerbung@huebner.business](mailto:bewerbung@huebner.business)
-
----
-⭐️ *Wenn dir etwas gefällt, freue ich mich über ein Star!*
