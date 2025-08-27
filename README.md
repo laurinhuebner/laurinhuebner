@@ -45,10 +45,6 @@ Eine moderne Web-Version meines CVs, optimiert für Bewerbungen und einfach teil
 - [**server-dashboard**](https://github.com/laurinhuebner/server-dashboard)  
   *🌐 Web-Dashboard für System-Monitoring (CPU, RAM, Uptime, Netzwerk, Logs & Dark Mode). Erstellt mit Flask & psutil.*  
 
----
-
-## 📊 GitHub Stats
-![Laurin's GitHub Stats](https://github-readme-stats.vercel.app/api?username=laurinhuebner&show_icons=true&theme=tokyonight)
 
 ---
 
