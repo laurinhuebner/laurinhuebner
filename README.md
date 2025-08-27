@@ -25,16 +25,16 @@ Ziel: langfristige Perspektive als **Fachinformatiker Systemintegration**.
 
 ## 🏷️ Top-Sprachen (automatisch)
 <!-- TOP_LANGS_START -->
-![Kotlin](https://img.shields.io/badge/Kotlin-1%20repo-1f6feb) ![HTML](https://img.shields.io/badge/HTML-1%20repo-db61a2)
+![HTML](https://img.shields.io/badge/HTML-1%20repo-1f6feb) ![Kotlin](https://img.shields.io/badge/Kotlin-1%20repo-db61a2)
 <!-- TOP_LANGS_END -->
 
 ---
 
 ## 🧭 Neueste Projekte
 <!-- RECENT_PROJECTS_START -->
+- [resume](https://github.com/laurinhuebner/resume) — Mein interaktiver Online-Lebenslauf – gebaut mit GitHub Pages, jederzeit abrufbar. _(updated 2025-08-27)_
 - [ads2letter](https://github.com/laurinhuebner/ads2letter) — KI-gestützte Anwendung, die Jobausschreibungen automatisch in individuelle Anschreiben umwandelt. _(updated 2025-08-27)_
-- [resume](https://github.com/laurinhuebner/resume) _(updated 2025-08-27)_
-- [ads2letter-webapp](https://github.com/laurinhuebner/ads2letter-webapp) _(updated 2025-08-25)_ ★1
+- [ads2letter-webapp](https://github.com/laurinhuebner/ads2letter-webapp) — Android-App zum schnellen Zugriff auf meine KI-Bewerbungssoftware ads2letter im Heimnetzwerk. _(updated 2025-08-25)_
 <!-- RECENT_PROJECTS_END -->
 
 > 🔒 Private Repos tauchen hier nicht auf.
