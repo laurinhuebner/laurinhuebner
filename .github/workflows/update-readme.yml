@@ -36,33 +36,51 @@ jobs:
             // Top 5 formatieren
             const list = filtered.slice(0, 5).map(r => {
               const desc = r.description ? r.description.replace(/\r?\n/g, ' ').trim() : 'Keine Beschreibung';
-              return `- [**${r.name}**](${r.html_url})  \n  *${desc}*`;
-            }).join("\n");
+name: Update README with latest projects
 
-            core.setOutput('projects', list || '*Noch keine öffentlichen Repos*');
+on:
+  schedule:
+    - cron: '0 8 * * *'   # Läuft täglich um 08:00 UTC
+  workflow_dispatch:       # Manuell triggerbar
 
-      - name: Update README section (safe replace)
-        uses: actions/github-script@v7
-        env:
-          PROJECTS: ${{ steps.build.outputs.projects }}
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Fetch recent repos
+        uses: actions/github-script@v6
+        id: repos
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const fs = require('fs');
-            const path = 'README.md';
-            const start = '<!-- RECENT_PROJECTS_START -->';
-            const end   = '<!-- RECENT_PROJECTS_END -->';
+            const { data: repos } = await github.repos.listForUser({
+              username: 'laurinhuebner',
+              sort: 'updated',
+              direction: 'desc',
+              per_page: 5
+            });
 
-            if (!fs.existsSync(path)) {
-              core.setFailed('README.md nicht gefunden');
-              return;
-            }
+            return repos
+              .filter(r => !r.fork)
+              .map(r => `- [**${r.name}**](${r.html_url})  \n  *${r.description || "Keine Beschreibung"}*`)
+              .join("\n");
 
-            let md = fs.readFileSync(path, 'utf8');
+      - name: Update README
+        run: |
+          CONTENT="$(cat README.md)"
+          NEW_SECTION="<!-- RECENT_PROJECTS_START -->\n${{ steps.repos.outputs.result }}\n<!-- RECENT_PROJECTS_END -->"
+          echo "$CONTENT" | sed -E "/<!-- RECENT_PROJECTS_START -->/,/<!-- RECENT_PROJECTS_END -->/c${NEW_SECTION}" > README.md
 
-            const sIdx = md.indexOf(start);
-            const eIdx = md.indexOf(end);
-            if (sIdx === -1 || eIdx === -1 || eIdx < sIdx) {
+      - name: Commit changes
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add README.md
+          git commit -m "chore: update recent projects" || echo "No changes to commit"
+          git push eIdx === -1 || eIdx < sIdx) {
               core.setFailed(`Marker nicht gefunden: ${start} / ${end}`);
               return;
             }
