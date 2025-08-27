@@ -1,133 +1,92 @@
-name: Update Profile README (Recent Projects & Top Languages)
+name: Update README with latest projects
 
 on:
   schedule:
-    - cron: "0 */3 * * *"   # alle 3 Stunden
+    - cron: "0 6 * * *"   # täglich 06:00 UTC
   workflow_dispatch:
-  push:
-    paths:
-      - ".github/workflows/update-readme.yml"
 
 permissions:
   contents: write
 
 jobs:
-  update:
+  update-readme:
     runs-on: ubuntu-latest
-    env:
-      BRANCH: ${{ github.ref_name }}
     steps:
-      - name: Checkout (volle Historie für rebase)
+      - name: Checkout
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
-      - name: Build dynamic sections
+      - name: Build recent projects list
         id: build
         uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const username = context.repo.owner;
+            const username = 'laurinhuebner';
 
-            // Repos holen (öffentlich)
+            // Repos holen (öffentlich, neueste zuerst)
             const { data: repos } = await github.rest.repos.listForUser({
               username,
               per_page: 100,
-              sort: "updated"
+              sort: 'updated'
             });
 
-            // Filter: keine Forks/Privat/Profil-Repo
-            const filtered = repos.filter(r =>
-              !r.fork && !r.private && r.name.toLowerCase() !== username.toLowerCase()
-            );
+            // filtern: keine Forks, keine privaten, Profil-Repo optional zulassen
+            const filtered = repos.filter(r => !r.fork && !r.private);
 
-            // robuste Aktivitätssortierung
-            const lastActivity = r => new Date(r.pushed_at || r.updated_at || r.created_at || 0).getTime();
-            const newest = [...filtered].sort((a,b) => lastActivity(b) - lastActivity(a)).slice(0, 5);
+            // Top 5 formatieren
+            const list = filtered.slice(0, 5).map(r => {
+              const desc = r.description ? r.description.replace(/\r?\n/g, ' ').trim() : 'Keine Beschreibung';
+              return `- [**${r.name}**](${r.html_url})  \n  *${desc}*`;
+            }).join("\n");
 
-            const projects = newest.length
-              ? newest.map(r => {
-                  const desc = r.description ? ` — ${r.description.replace(/\r?\n/g," ").trim()}` : "";
-                  const star = r.stargazers_count ? ` ★${r.stargazers_count}` : "";
-                  const d = new Date(r.pushed_at || r.updated_at || r.created_at);
-                  const ymd = isNaN(d) ? "" : d.toISOString().slice(0,10);
-                  return `- [${r.name}](${r.html_url})${desc}${ymd ? ` _(updated ${ymd})_` : ""}${star}`;
-                }).join("\n")
-              : "*Noch keine öffentlichen Repos*";
+            core.setOutput('projects', list || '*Noch keine öffentlichen Repos*');
 
-            // Top-Sprachen
-            const counts = {};
-            filtered.forEach(r => { if (r.language) counts[r.language] = (counts[r.language]||0)+1; });
-            const palette = ["1f6feb","db61a2","7ee787","ffa657","d2a8ff","79c0ff"];
-            const langs = Object.entries(counts)
-              .sort((a,b)=>b[1]-a[1])
-              .slice(0,6)
-              .map(([lang, n], i) => {
-                const color = palette[i % palette.length];
-                const label = encodeURIComponent(lang);
-                const msg = encodeURIComponent(`${n} repo${n>1?'s':''}`);
-                return `![${lang}](https://img.shields.io/badge/${label}-${msg}-${color})`;
-              })
-              .join(" ") || "_Noch keine Sprache erkannt_";
-
-            core.setOutput("projects", projects);
-            core.setOutput("langs", langs);
-
-      - name: Update README (safe replace)
+      - name: Update README section (safe replace)
         uses: actions/github-script@v7
         env:
           PROJECTS: ${{ steps.build.outputs.projects }}
-          LANGS: ${{ steps.build.outputs.langs }}
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const fs = require('fs');
             const path = 'README.md';
-            const projStart = '<!-- RECENT_PROJECTS_START -->';
-            const projEnd   = '<!-- RECENT_PROJECTS_END -->';
-            const langStart = '<!-- TOP_LANGS_START -->';
-            const langEnd   = '<!-- TOP_LANGS_END -->';
-
-            function replaceBlock(src, start, end, replacement) {
-              const s = src.indexOf(start);
-              const e = src.indexOf(end);
-              if (s === -1 || e === -1 || e < s) {
-                core.setFailed(`Marker nicht gefunden: ${start} / ${end}`);
-                return src;
-              }
-              const before = src.slice(0, s + start.length);
-              const after  = src.slice(e);
-              return `${before}\n${replacement}\n${after}`;
-            }
+            const start = '<!-- RECENT_PROJECTS_START -->';
+            const end   = '<!-- RECENT_PROJECTS_END -->';
 
             if (!fs.existsSync(path)) {
               core.setFailed('README.md nicht gefunden');
-            } else {
-              let md = fs.readFileSync(path, 'utf8');
-              md = replaceBlock(md, projStart, projEnd, process.env.PROJECTS || '*keine Daten*');
-              md = replaceBlock(md, langStart, langEnd, process.env.LANGS || '*keine Daten*');
-              fs.writeFileSync(path, md);
+              return;
             }
 
-      - name: Commit & Push (commit -> rebase -> push)
+            let md = fs.readFileSync(path, 'utf8');
+
+            const sIdx = md.indexOf(start);
+            const eIdx = md.indexOf(end);
+            if (sIdx === -1 || eIdx === -1 || eIdx < sIdx) {
+              core.setFailed(`Marker nicht gefunden: ${start} / ${end}`);
+              return;
+            }
+
+            const before = md.slice(0, sIdx + start.length);
+            const after  = md.slice(eIdx);
+            const replacement = `\n${process.env.PROJECTS}\n`;
+            const updated = before + replacement + after;
+
+            if (updated !== md) {
+              fs.writeFileSync(path, updated);
+              core.info('README.md aktualisiert');
+            } else {
+              core.info('Keine Änderungen nötig');
+            }
+
+      - name: Commit & Push
         run: |
           if git diff --quiet; then
             echo "No changes."
-            exit 0
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add README.md
+            git commit -m "chore: update recent projects (daily)"
+            git push
           fi
-
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
-          # Aktuellen Branch sicherstellen
-          git checkout -B "$BRANCH"
-
-          # ZUERST committen (damit keine unstaged changes das rebase blockieren)
-          git add -A
-          git commit -m "chore: auto-update README (projects & languages)" || true
-
-          # Dann auf Remote-Stand rebasen und pushen
-          git fetch origin "$BRANCH"
-          git pull --rebase origin "$BRANCH"
-          git push origin "$BRANCH"
