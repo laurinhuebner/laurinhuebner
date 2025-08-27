@@ -51,14 +51,14 @@ Ziel: langfristige Perspektive als **Fachinformatiker Systemintegration**.
 
 ## 🏷️ Top-Sprachen (automatisch)
 <!-- TOP_LANGS_START -->
-*(wird automatisch befüllt)*
+![HTML](https://img.shields.io/badge/HTML-1%20repo-1f6feb)
 <!-- TOP_LANGS_END -->
 
 ---
 
 ## 🧭 Neueste Projekte
 <!-- RECENT_PROJECTS_START -->
-*(wird automatisch befüllt)*
+- [resume](https://github.com/laurinhuebner/resume) _(updated 2025-08-27)_
 <!-- RECENT_PROJECTS_END -->
 
 > 🔒 Private Repos tauchen hier nicht auf.
