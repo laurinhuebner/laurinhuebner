@@ -110,7 +110,7 @@ jobs:
               fs.writeFileSync(path, md);
             }
 
-      - name: Commit & Push (mit rebase)
+      - name: Commit & Push (commit -> rebase -> push)
         run: |
           if git diff --quiet; then
             echo "No changes."
@@ -120,13 +120,14 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          # Sicherstellen, dass BRANCH existiert und Tracking gesetzt ist
-          git branch --show-current || git checkout -B "$BRANCH"
+          # Aktuellen Branch sicherstellen
+          git checkout -B "$BRANCH"
 
-          # Rebase auf Remote-Stand (verhindert non-fast-forward)
+          # ZUERST committen (damit keine unstaged changes das rebase blockieren)
+          git add -A
+          git commit -m "chore: auto-update README (projects & languages)" || true
+
+          # Dann auf Remote-Stand rebasen und pushen
           git fetch origin "$BRANCH"
           git pull --rebase origin "$BRANCH"
-
-          git add README.md
-          git commit -m "chore: auto-update README (projects & languages)"
           git push origin "$BRANCH"
