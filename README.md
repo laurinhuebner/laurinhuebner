@@ -24,14 +24,14 @@
 
 ## 🏷️ Top-Sprachen (automatisch)
 <!-- TOP_LANGS_START -->
-*(wird automatisch befüllt)*
+
 <!-- TOP_LANGS_END -->
 
 ---
 
 ## 🧭 Neueste Projekte
 <!-- RECENT_PROJECTS_START -->
-*(wird automatisch befüllt)*
+
 <!-- RECENT_PROJECTS_END -->
 
 > 🔒 Private Repos tauchen hier nicht auf.
