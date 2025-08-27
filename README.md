@@ -11,7 +11,7 @@ Mein Schwerpunkt liegt auf **praktischen Lösungen mit Linux, Python & modernen 
 ---
 
 ## 🚀 Lebenslauf Online
-👉 [**Hier geht es direkt zu meinem interaktiven Lebenslauf**](https://laurinhuebner.github.io/resume/)  
+👉 [![Live ansehen](https://img.shields.io/badge/🌐%20Lebenslauf-online-blue)](https://laurinhuebner.github.io/resume/)  
 Eine moderne Web-Version meines CVs, optimiert für Bewerbungen und einfach teilbar.
 
 ---
@@ -29,37 +29,31 @@ Eine moderne Web-Version meines CVs, optimiert für Bewerbungen und einfach teil
 
 ### Bewerbungs- & CV-Tools
 - [**Lebenslauf Online**](https://laurinhuebner.github.io/resume/)  
-  *Interaktive Webseite mit allen wichtigen Infos über mich – moderne Alternative zum klassischen PDF-Lebenslauf.*
+  ![Last Commit](https://img.shields.io/github/last-commit/laurinhuebner/resume)  
+  ![Repo Size](https://img.shields.io/github/repo-size/laurinhuebner/resume)  
+  *Interaktive Webseite mit allen wichtigen Infos über mich – moderne Alternative zum klassischen PDF-Lebenslauf.*  
+  👉 [![Live ansehen](https://img.shields.io/badge/🌐%20Demo-blue)](https://laurinhuebner.github.io/resume/)
 
 - [**resume (Quellcode)**](https://github.com/laurinhuebner/resume)  
+  ![Repo Size](https://img.shields.io/github/repo-size/laurinhuebner/resume)  
   *Der Code für meine Lebenslauf-Webseite – gebaut mit HTML, CSS & etwas JavaScript.*
 
 ### KI & Automatisierung
 - [**ads2letter**](https://github.com/laurinhuebner/ads2letter)  
-  *Tool, das mithilfe von KI Jobausschreibungen automatisch in individuelle Bewerbungsanschreiben umwandelt.*  
+  ![Last Commit](https://img.shields.io/github/last-commit/laurinhuebner/ads2letter)  
+  ![Repo Size](https://img.shields.io/github/repo-size/laurinhuebner/ads2letter)  
+  *Tool, das mithilfe von KI Jobausschreibungen automatisch in individuelle Bewerbungsanschreiben umwandelt.*
 
 - [**ads2letter-webapp**](https://github.com/laurinhuebner/ads2letter-webapp)  
-  *Einfache Android-App, die ads2letter aus dem lokalen Netzwerk heraus nutzbar macht – ohne den Umweg über den Browser.*  
+  ![Last Commit](https://img.shields.io/github/last-commit/laurinhuebner/ads2letter-webapp)  
+  ![Repo Size](https://img.shields.io/github/repo-size/laurinhuebner/ads2letter-webapp)  
+  *Einfache Android-App, die ads2letter aus dem lokalen Netzwerk heraus nutzbar macht – ohne den Umweg über den Browser.*
 
-### Server & Infrastruktur
-- [**Server-Dashboard**](https://github.com/laurinhuebner/server-dashboard)  
-  *Ein persönliches Dashboard auf meinem Debian-Server mit Systemübersicht, Logs und praktischen Tools.*  
-
----
-
-## 🔄 Automatisch aktualisierte Projekte
-<!-- RECENT_PROJECTS_START -->
-- [**laurinhuebner**](https://github.com/laurinhuebner/laurinhuebner)  
-  *Keine Beschreibung*
+### Server & Monitoring
 - [**server-dashboard**](https://github.com/laurinhuebner/server-dashboard)  
-  *🌐 Web-Dashboard für System-Monitoring (CPU, RAM, Uptime, Netzwerk, Logs & Dark Mode). Erstellt mit Flask & psutil.*
-- [**resume**](https://github.com/laurinhuebner/resume)  
-  *Mein interaktiver Online-Lebenslauf – gebaut mit GitHub Pages, jederzeit abrufbar.*
-- [**ads2letter-webapp**](https://github.com/laurinhuebner/ads2letter-webapp)  
-  *Android-App zum schnellen Zugriff auf meine KI-Bewerbungssoftware ads2letter im Heimnetzwerk.*
-- [**ads2letter**](https://github.com/laurinhuebner/ads2letter)  
-  *KI-gestützte Anwendung, die Jobausschreibungen automatisch in individuelle Anschreiben umwandelt.*
-<!-- RECENT_PROJECTS_END -->
+  ![Last Commit](https://img.shields.io/github/last-commit/laurinhuebner/server-dashboard)  
+  ![Repo Size](https://img.shields.io/github/repo-size/laurinhuebner/server-dashboard)  
+  *Eigenes Web-Dashboard auf Debian-Server: zeigt Systeminfos, Logs & Services.*  
 
 ---
 
