@@ -41,6 +41,10 @@ Eine moderne Web-Version meines CVs, optimiert für Bewerbungen und einfach teil
 - [**ads2letter-webapp**](https://github.com/laurinhuebner/ads2letter-webapp)  
   *Einfache Android-App, die ads2letter aus dem lokalen Netzwerk heraus nutzbar macht – ohne den Umweg über den Browser.*  
 
+### Server & Monitoring
+- [**server-dashboard**](https://github.com/laurinhuebner/server-dashboard)  
+  *🌐 Web-Dashboard für System-Monitoring (CPU, RAM, Uptime, Netzwerk, Logs & Dark Mode). Erstellt mit Flask & psutil.*  
+
 ---
 
 ## 📊 GitHub Stats
