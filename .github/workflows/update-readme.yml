@@ -3,7 +3,7 @@ name: Update Profile README (Recent Projects & Top Languages)
 on:
   schedule:
     - cron: "17 6 * * *"   # täglich 06:17 UTC
-  workflow_dispatch:       # manuell startbar
+  workflow_dispatch:
   push:
     paths:
       - ".github/workflows/update-readme.yml"
@@ -26,21 +26,21 @@ jobs:
           script: |
             const username = context.repo.owner;
 
-            // 1) Repos laden
+            // Repos holen
             const { data: repos } = await github.rest.repos.listForUser({
               username,
               per_page: 100,
               sort: "updated"
             });
 
-            // Nur öffentliche, keine Forks, nicht das Profil-Repo
+            // Öffentliche, keine Forks, nicht das Profil-Repo
             const filtered = repos.filter(r =>
               !r.fork && !r.private && r.name.toLowerCase() !== username.toLowerCase()
             );
 
-            // 2) Neueste Projekte (Top 5 nach "updated")
+            // Top 5 Neueste
             const top5 = filtered.slice(0, 5);
-            const list = top5.length
+            const projects = top5.length
               ? top5.map(r => {
                   const desc = r.description ? ` — ${r.description.replace(/\r?\n/g," ").trim()}` : "";
                   const star = r.stargazers_count ? ` ★${r.stargazers_count}` : "";
@@ -49,57 +49,63 @@ jobs:
                 }).join("\n")
               : "*Noch keine öffentlichen Repos*";
 
-            // 3) Top-Sprachen zählen (über primary language)
+            // Top-Sprachen (nach primary language gezählt)
             const counts = {};
-            filtered.forEach(r => {
-              if (r.language) counts[r.language] = (counts[r.language] || 0) + 1;
-            });
-
-            // Badges bauen (max. 6 Sprachen)
+            filtered.forEach(r => { if (r.language) counts[r.language] = (counts[r.language]||0)+1; });
             const palette = ["1f6feb","db61a2","7ee787","ffa657","d2a8ff","79c0ff"];
-            const topLangs = Object.entries(counts)
-              .sort((a,b) => b[1]-a[1])
-              .slice(0, 6)
+            const langs = Object.entries(counts)
+              .sort((a,b)=>b[1]-a[1])
+              .slice(0,6)
               .map(([lang, n], i) => {
                 const color = palette[i % palette.length];
                 const label = encodeURIComponent(lang);
-                const message = encodeURIComponent(`${n} repo${n>1?'s':''}`);
-                return `![${lang}](https://img.shields.io/badge/${label}-${message}-${color})`;
-              });
+                const msg = encodeURIComponent(`${n} repo${n>1?'s':''}`);
+                return `![${lang}](https://img.shields.io/badge/${label}-${msg}-${color})`;
+              })
+              .join(" ") || "_Noch keine Sprache erkannt_";
 
-            const badges = topLangs.length
-              ? topLangs.join(" ")
-              : "_Noch keine Sprache erkannt_";
+            core.setOutput("projects", projects);
+            core.setOutput("langs", langs);
 
-            core.setOutput("projects", list);
-            core.setOutput("badges", badges);
+      - name: Update README with Node (safe replace)
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+            const path = 'README.md';
+            const projStart = '<!-- RECENT_PROJECTS_START -->';
+            const projEnd   = '<!-- RECENT_PROJECTS_END -->';
+            const langStart = '<!-- TOP_LANGS_START -->';
+            const langEnd   = '<!-- TOP_LANGS_END -->';
 
-      - name: Update README sections
-        env:
-          PROJECTS: ${{ steps.build.outputs.projects }}
-          BADGES: ${{ steps.build.outputs.badges }}
-        run: |
-          START_REC="<!-- RECENT_PROJECTS_START -->"
-          END_REC="<!-- RECENT_PROJECTS_END -->"
-          START_LANG="<!-- TOP_LANGS_START -->"
-          END_LANG="<!-- TOP_LANGS_END -->"
+            function replaceBlock(src, start, end, replacement) {
+              const s = src.indexOf(start);
+              const e = src.indexOf(end);
+              if (s === -1 || e === -1 || e < s) {
+                core.setFailed(`Marker nicht gefunden: ${start} / ${end}`);
+                return src;
+              }
+              const before = src.slice(0, s + start.length);
+              const after  = src.slice(e);
+              // Immer mit genau einem Zeilenumbruch einfügen
+              return `${before}\n${replacement}\n${after}`;
+            }
 
-          esc_projects=$(printf '%s\n' "$PROJECTS" | sed -e 's/[\/&]/\\&/g')
-          esc_badges=$(printf '%s\n' "$BADGES" | sed -e 's/[\/&]/\\&/g')
+            if (!fs.existsSync(path)) {
+              core.setFailed('README.md nicht gefunden');
+              return;
+            }
 
-          awk -v s="$START_REC" -v e="$END_REC" -v repl="$esc_projects" '
-            BEGIN{in=0}
-            { if($0 ~ s){print; print repl; in=1; next}
-              if($0 ~ e){in=0}
-              if(!in) print
-            }' README.md > README.tmp && mv README.tmp README.md
+            let md = fs.readFileSync(path, 'utf8');
 
-          awk -v s="$START_LANG" -v e="$END_LANG" -v repl="$esc_badges" '
-            BEGIN{in=0}
-            { if($0 ~ s){print; print repl; in=1; next}
-              if($0 ~ e){in=0}
-              if(!in) print
-            }' README.md > README.tmp && mv README.tmp README.md
+            const projects = process.env.PROJECTS || '';
+            const langs    = process.env.LANGS || '';
+
+            md = replaceBlock(md, projStart, projEnd, projects);
+            md = replaceBlock(md, langStart, langEnd, langs);
+
+            fs.writeFileSync(path, md);
 
       - name: Commit changes (if any)
         run: |
@@ -112,3 +118,6 @@ jobs:
             git commit -m "chore: auto-update README (projects & languages)"
             git push
           fi
+        env:
+          PROJECTS: ${{ steps.build.outputs.projects }}
+          LANGS: ${{ steps.build.outputs.langs }}
