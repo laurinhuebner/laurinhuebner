@@ -96,6 +96,12 @@ Eine moderne Web-Version meines CVs, optimiert für Bewerbungen und einfach teil
 
 ---
 
+### 🔄 Automatisch aktualisierte Projekte
+<!-- RECENT_PROJECTS_START -->
+<!-- RECENT_PROJECTS_END -->
+
+---
+
 ## ✨ Über mich
 - 🌱 Lerne aktuell mehr über **Netzwerke, Linux-Server & Python**  
 - 💡 Interesse an **Automatisierung, Webprojekten & neuen Technologien**  
