@@ -14,9 +14,13 @@ permissions:
 jobs:
   update:
     runs-on: ubuntu-latest
+    env:
+      BRANCH: ${{ github.ref_name }}
     steps:
-      - name: Checkout
+      - name: Checkout (volle Historie für rebase)
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Build dynamic sections
         id: build
@@ -26,11 +30,11 @@ jobs:
           script: |
             const username = context.repo.owner;
 
-            // Repos holen (öffentlich), 100 reichen idR aus
+            // Repos holen (öffentlich)
             const { data: repos } = await github.rest.repos.listForUser({
               username,
               per_page: 100,
-              sort: "updated" // nur Default – wir sortieren gleich selbst robuster
+              sort: "updated"
             });
 
             // Filter: keine Forks/Privat/Profil-Repo
@@ -38,12 +42,8 @@ jobs:
               !r.fork && !r.private && r.name.toLowerCase() !== username.toLowerCase()
             );
 
-            // Helper: robustes Zeitfeld wählen
-            function lastActivity(r) {
-              return new Date(r.pushed_at || r.updated_at || r.created_at || 0).getTime();
-            }
-
-            // Neueste Projekte: nach letzter Aktivität sortieren
+            // robuste Aktivitätssortierung
+            const lastActivity = r => new Date(r.pushed_at || r.updated_at || r.created_at || 0).getTime();
             const newest = [...filtered].sort((a,b) => lastActivity(b) - lastActivity(a)).slice(0, 5);
 
             const projects = newest.length
@@ -56,7 +56,7 @@ jobs:
                 }).join("\n")
               : "*Noch keine öffentlichen Repos*";
 
-            // Top-Sprachen (nach primary language gezählt)
+            // Top-Sprachen
             const counts = {};
             filtered.forEach(r => { if (r.language) counts[r.language] = (counts[r.language]||0)+1; });
             const palette = ["1f6feb","db61a2","7ee787","ffa657","d2a8ff","79c0ff"];
@@ -110,14 +110,23 @@ jobs:
               fs.writeFileSync(path, md);
             }
 
-      - name: Commit changes (if any)
+      - name: Commit & Push (mit rebase)
         run: |
           if git diff --quiet; then
             echo "No changes."
-          else
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add README.md
-            git commit -m "chore: auto-update README (projects & languages)"
-            git push
+            exit 0
           fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          # Sicherstellen, dass BRANCH existiert und Tracking gesetzt ist
+          git branch --show-current || git checkout -B "$BRANCH"
+
+          # Rebase auf Remote-Stand (verhindert non-fast-forward)
+          git fetch origin "$BRANCH"
+          git pull --rebase origin "$BRANCH"
+
+          git add README.md
+          git commit -m "chore: auto-update README (projects & languages)"
+          git push origin "$BRANCH"
