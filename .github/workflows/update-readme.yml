@@ -26,19 +26,17 @@ jobs:
           script: |
             const username = context.repo.owner;
 
-            // Repos holen
             const { data: repos } = await github.rest.repos.listForUser({
               username,
               per_page: 100,
               sort: "updated"
             });
 
-            // Öffentliche, keine Forks, nicht das Profil-Repo
             const filtered = repos.filter(r =>
               !r.fork && !r.private && r.name.toLowerCase() !== username.toLowerCase()
             );
 
-            // Top 5 Neueste
+            // Neueste Projekte (Top 5)
             const top5 = filtered.slice(0, 5);
             const projects = top5.length
               ? top5.map(r => {
@@ -49,7 +47,7 @@ jobs:
                 }).join("\n")
               : "*Noch keine öffentlichen Repos*";
 
-            // Top-Sprachen (nach primary language gezählt)
+            // Top-Sprachen (primary language gezählt)
             const counts = {};
             filtered.forEach(r => { if (r.language) counts[r.language] = (counts[r.language]||0)+1; });
             const palette = ["1f6feb","db61a2","7ee787","ffa657","d2a8ff","79c0ff"];
@@ -69,6 +67,9 @@ jobs:
 
       - name: Update README with Node (safe replace)
         uses: actions/github-script@v7
+        env:
+          PROJECTS: ${{ steps.build.outputs.projects }}
+          LANGS: ${{ steps.build.outputs.langs }}
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
@@ -88,24 +89,17 @@ jobs:
               }
               const before = src.slice(0, s + start.length);
               const after  = src.slice(e);
-              // Immer mit genau einem Zeilenumbruch einfügen
               return `${before}\n${replacement}\n${after}`;
             }
 
             if (!fs.existsSync(path)) {
               core.setFailed('README.md nicht gefunden');
-              return;
+            } else {
+              let md = fs.readFileSync(path, 'utf8');
+              md = replaceBlock(md, projStart, projEnd, process.env.PROJECTS || '*keine Daten*');
+              md = replaceBlock(md, langStart, langEnd, process.env.LANGS || '*keine Daten*');
+              fs.writeFileSync(path, md);
             }
-
-            let md = fs.readFileSync(path, 'utf8');
-
-            const projects = process.env.PROJECTS || '';
-            const langs    = process.env.LANGS || '';
-
-            md = replaceBlock(md, projStart, projEnd, projects);
-            md = replaceBlock(md, langStart, langEnd, langs);
-
-            fs.writeFileSync(path, md);
 
       - name: Commit changes (if any)
         run: |
@@ -118,6 +112,3 @@ jobs:
             git commit -m "chore: auto-update README (projects & languages)"
             git push
           fi
-        env:
-          PROJECTS: ${{ steps.build.outputs.projects }}
-          LANGS: ${{ steps.build.outputs.langs }}
