@@ -1,4 +1,4 @@
-name: Update Profile README (Recent Projects)
+name: Update Profile README (Recent Projects & Top Languages)
 
 on:
   schedule:
@@ -18,47 +18,90 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Build recent projects list
-        id: recent
+      - name: Build dynamic sections
+        id: build
         uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const username = context.repo.owner;
-            // hol 5 zuletzt aktualisierte öffentliche Repos, ohne das Profile-Repo selbst
+
+            // 1) Repos laden
             const { data: repos } = await github.rest.repos.listForUser({
               username,
-              per_page: 20,
+              per_page: 100,
               sort: "updated"
             });
-            const top = repos
-              .filter(r => !r.fork && !r.private && r.name.toLowerCase() !== username.toLowerCase())
-              .slice(0, 5);
 
-            function fmt(r){
-              const desc = r.description ? ` — ${r.description.replace(/\r?\n/g," ").trim()}` : "";
-              const star = r.stargazers_count ? ` ★${r.stargazers_count}` : "";
-              const upd = new Date(r.pushed_at).toISOString().slice(0,10);
-              return `- [${r.name}](${r.html_url})${desc} _(updated ${upd})_${star}`;
-            }
-            const list = top.length ? top.map(fmt).join("\n") : "*Noch keine öffentlichen Repos*";
+            // Nur öffentliche, keine Forks, nicht das Profil-Repo
+            const filtered = repos.filter(r =>
+              !r.fork && !r.private && r.name.toLowerCase() !== username.toLowerCase()
+            );
 
-            core.setOutput("list", list);
+            // 2) Neueste Projekte (Top 5 nach "updated")
+            const top5 = filtered.slice(0, 5);
+            const list = top5.length
+              ? top5.map(r => {
+                  const desc = r.description ? ` — ${r.description.replace(/\r?\n/g," ").trim()}` : "";
+                  const star = r.stargazers_count ? ` ★${r.stargazers_count}` : "";
+                  const upd = new Date(r.pushed_at).toISOString().slice(0,10);
+                  return `- [${r.name}](${r.html_url})${desc} _(updated ${upd})_${star}`;
+                }).join("\n")
+              : "*Noch keine öffentlichen Repos*";
 
-      - name: Update README section
+            // 3) Top-Sprachen zählen (über primary language)
+            const counts = {};
+            filtered.forEach(r => {
+              if (r.language) counts[r.language] = (counts[r.language] || 0) + 1;
+            });
+
+            // Badges bauen (max. 6 Sprachen)
+            const palette = ["1f6feb","db61a2","7ee787","ffa657","d2a8ff","79c0ff"];
+            const topLangs = Object.entries(counts)
+              .sort((a,b) => b[1]-a[1])
+              .slice(0, 6)
+              .map(([lang, n], i) => {
+                const color = palette[i % palette.length];
+                const label = encodeURIComponent(lang);
+                const message = encodeURIComponent(`${n} repo${n>1?'s':''}`);
+                return `![${lang}](https://img.shields.io/badge/${label}-${message}-${color})`;
+              });
+
+            const badges = topLangs.length
+              ? topLangs.join(" ")
+              : "_Noch keine Sprache erkannt_";
+
+            core.setOutput("projects", list);
+            core.setOutput("badges", badges);
+
+      - name: Update README sections
+        env:
+          PROJECTS: ${{ steps.build.outputs.projects }}
+          BADGES: ${{ steps.build.outputs.badges }}
         run: |
-          START="<!-- RECENT_PROJECTS_START -->"
-          END="<!-- RECENT_PROJECTS_END -->"
-          CONTENT="${{ steps.recent.outputs.list }}"
-          esc_content=$(printf '%s\n' "$CONTENT" | sed -e 's/[\/&]/\\&/g')
-          awk -v start="$START" -v end="$END" -v repl="$esc_content" '
-            BEGIN{inblock=0}
-            { if($0 ~ start){print; print repl; inblock=1; next}
-              if($0 ~ end){inblock=0}
-              if(!inblock) print }' README.md > README.md.new
-          mv README.md.new README.md
+          START_REC="<!-- RECENT_PROJECTS_START -->"
+          END_REC="<!-- RECENT_PROJECTS_END -->"
+          START_LANG="<!-- TOP_LANGS_START -->"
+          END_LANG="<!-- TOP_LANGS_END -->"
 
-      - name: Commit changes
+          esc_projects=$(printf '%s\n' "$PROJECTS" | sed -e 's/[\/&]/\\&/g')
+          esc_badges=$(printf '%s\n' "$BADGES" | sed -e 's/[\/&]/\\&/g')
+
+          awk -v s="$START_REC" -v e="$END_REC" -v repl="$esc_projects" '
+            BEGIN{in=0}
+            { if($0 ~ s){print; print repl; in=1; next}
+              if($0 ~ e){in=0}
+              if(!in) print
+            }' README.md > README.tmp && mv README.tmp README.md
+
+          awk -v s="$START_LANG" -v e="$END_LANG" -v repl="$esc_badges" '
+            BEGIN{in=0}
+            { if($0 ~ s){print; print repl; in=1; next}
+              if($0 ~ e){in=0}
+              if(!in) print
+            }' README.md > README.tmp && mv README.tmp README.md
+
+      - name: Commit changes (if any)
         run: |
           if git diff --quiet; then
             echo "No changes."
@@ -66,6 +109,6 @@ jobs:
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
             git add README.md
-            git commit -m "chore: update recent projects in README"
+            git commit -m "chore: auto-update README (projects & languages)"
             git push
           fi
