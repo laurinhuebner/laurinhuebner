@@ -25,7 +25,7 @@ Mein Ziel: langfristige Perspektive als **Fachinformatiker für Systemintegratio
 
 ## 🧭 Neueste Projekte
 <!-- RECENT_PROJECTS_START -->
-*(Lädt … wird durch GitHub Action automatisch befüllt)*
+- [resume](https://github.com/laurinhuebner/resume) _(updated 2025-08-27)_
 <!-- RECENT_PROJECTS_END -->
 
 > 🔒 Private Repos tauchen hier nicht auf.
