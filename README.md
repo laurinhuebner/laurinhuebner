@@ -41,14 +41,15 @@ Eine moderne Web-Version meines CVs, optimiert für Bewerbungen und einfach teil
 - [**ads2letter-webapp**](https://github.com/laurinhuebner/ads2letter-webapp)  
   *Einfache Android-App, die ads2letter aus dem lokalen Netzwerk heraus nutzbar macht – ohne den Umweg über den Browser.*  
 
-### Server & Monitoring
-- [**server-dashboard**](https://github.com/laurinhuebner/server-dashboard)  
-  *Ein minimalistisches Web-Dashboard (Flask), das Live-Infos von meinem Debian-Server anzeigt.*  
+### Server & Infrastruktur
+- [**Server-Dashboard**](https://github.com/laurinhuebner/server-dashboard)  
+  *Ein persönliches Dashboard auf meinem Debian-Server mit Systemübersicht, Logs und praktischen Tools.*  
 
 ---
 
-### 🔄 Automatisch aktualisierte Projekte
+## 🔄 Automatisch aktualisierte Projekte
 <!-- RECENT_PROJECTS_START -->
+*(wird automatisch befüllt)*
 <!-- RECENT_PROJECTS_END -->
 
 ---
