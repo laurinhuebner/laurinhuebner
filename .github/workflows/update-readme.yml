@@ -3,7 +3,7 @@ name: Update README with latest projects
 on:
   schedule:
     - cron: '0 8 * * *'   # täglich 08:00 UTC
-  workflow_dispatch:       # manueller Start möglich
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -12,11 +12,13 @@ jobs:
   update-readme:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # wichtig für rebase
 
-      - name: Fetch recent repos
-        id: repos
+      - name: Build recent projects list
+        id: build
         uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -26,18 +28,19 @@ jobs:
               username,
               sort: 'updated',
               direction: 'desc',
-              per_page: 5
+              per_page: 100
             });
             const list = repos
               .filter(r => !r.fork && !r.private)
-              .map(r => `- [**${r.name}**](${r.html_url})  \n  *${r.description?.replace(/\r?\n/g,' ').trim() || "Keine Beschreibung"}*`)
+              .slice(0, 5)
+              .map(r => `- [**${r.name}**](${r.html_url})  \n  *${(r.description||'Keine Beschreibung').replace(/\r?\n/g,' ').trim()}*`)
               .join("\n") || "*Noch keine öffentlichen Repos*";
             core.setOutput('projects', list);
 
       - name: Update README section (RECENT_PROJECTS)
         uses: actions/github-script@v7
         env:
-          PROJECTS: ${{ steps.repos.outputs.projects }}
+          PROJECTS: ${{ steps.build.outputs.projects }}
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
@@ -45,6 +48,7 @@ jobs:
             const path = 'README.md';
             const start = '<!-- RECENT_PROJECTS_START -->';
             const end   = '<!-- RECENT_PROJECTS_END -->';
+
             if (!fs.existsSync(path)) core.setFailed('README.md nicht gefunden');
 
             let md = fs.readFileSync(path, 'utf8');
@@ -56,14 +60,21 @@ jobs:
               if (updated !== md) fs.writeFileSync(path, updated);
             }
 
-      - name: Commit & Push
+      - name: Commit & Push (with rebase)
         run: |
           if git diff --quiet; then
             echo "No changes."
-          else
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add README.md
-            git commit -m "chore: update recent projects (daily)"
-            git push
+            exit 0
           fi
+
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add README.md
+          git commit -m "chore: update recent projects (daily)"
+
+          # Rebase gegen die aktuelle main, um Fast-Forward-Konflikte zu vermeiden
+          git fetch origin main
+          git pull --rebase origin main
+
+          git push origin HEAD:main
