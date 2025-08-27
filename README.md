@@ -10,7 +10,6 @@ Mein Schwerpunkt liegt auf **praktischen Lösungen mit Linux, Python & modernen 
 
 ---
 
-
 ## 🚀 Lebenslauf Online
 👉 [**Hier geht es direkt zu meinem interaktiven Lebenslauf**](https://laurinhuebner.github.io/resume/)  
 Eine moderne Web-Version meines CVs, optimiert für Bewerbungen und einfach teilbar.
@@ -45,35 +44,6 @@ Eine moderne Web-Version meines CVs, optimiert für Bewerbungen und einfach teil
 ### Server & Monitoring
 - [**server-dashboard**](https://github.com/laurinhuebner/server-dashboard)  
   *Ein minimalistisches Web-Dashboard (Flask), das Live-Infos von meinem Debian-Server anzeigt.*  
-  <p align="center">
-    <img src="https://raw.githubusercontent.com/laurinhuebner/server-dashboard/main/docs/screenshot_ui.jpg" alt="Server Dashboard Screenshot" width="70%" />
-  </p>
-
----
-
-### 🔄 Automatisch aktualisierte Projekte
-<!-- RECENT_PROJECTS_START -->
-<!-- RECENT_PROJECTS_END -->
-
----
-
-## ✨ Über mich
-- 🌱 Lerne aktuell mehr über **Netzwerke, Linux-Server & Python**  
-- 💡 Interesse an **Automatisierung, Webprojekten & neuen Technologien**  
-- 🎯 Ziel: Ausbildung & langfristige Perspektive als **Fachinformatiker Systemintegration**
-
----
-
-📫 Kontakt: [bewerbung@huebner.business](mailto:bewerbung@huebner.business)  
-🌍 Webseite: [Lebenslauf Online](https://laurinhuebner.github.io/resume/)ibungen automatisch in individuelle Bewerbungsanschreiben umwandelt.*  
-
-- [**ads2letter-webapp**](https://github.com/laurinhuebner/ads2letter-webapp)  
-  *Einfache Android-App, die ads2letter aus dem lokalen Netzwerk heraus nutzbar macht – ohne den Umweg über den Browser.*  
-
-### Server & Monitoring
-- [**server-dashboard**](https://github.com/laurinhuebner/server-dashboard)  
-  *🌐 Web-Dashboard für System-Monitoring (CPU, RAM, Uptime, Netzwerk, Logs & Dark Mode). Erstellt mit Flask & psutil.*  
-
 
 ---
 
