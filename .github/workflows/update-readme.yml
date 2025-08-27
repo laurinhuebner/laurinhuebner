@@ -7,20 +7,21 @@ on:
 
 permissions:
   contents: write
-  pull-requests: write
-
-concurrency:
-  group: update-readme
-  cancel-in-progress: true
 
 jobs:
   update-readme:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout (full history for rebase)
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
+      # Optional, aber hilft gegen Divergenzen vor der Änderung
+      - name: Sync to latest origin/main
+        run: |
+          git fetch origin main
+          git checkout -B main origin/main
 
       - name: Build recent projects list
         id: build
@@ -38,7 +39,7 @@ jobs:
             const list = repos
               .filter(r => !r.fork && !r.private)
               .slice(0, 5)
-              .map(r => `- [**${r.name}**](${r.html_url})  \n  *${(r.description || 'Keine Beschreibung').replace(/\r?\n/g, ' ').trim()}*`)
+              .map(r => `- [**${r.name}**](${r.html_url})  \n  *${(r.description || 'Keine Beschreibung').replace(/\r?\n/g,' ').trim()}*`)
               .join("\n") || "*Noch keine öffentlichen Repos*";
             core.setOutput('projects', list);
 
@@ -55,7 +56,6 @@ jobs:
             const start = '<!-- RECENT_PROJECTS_START -->';
             const end   = '<!-- RECENT_PROJECTS_END -->';
             if (!fs.existsSync(path)) core.setFailed('README.md nicht gefunden');
-
             let md = fs.readFileSync(path, 'utf8');
             const s = md.indexOf(start), e = md.indexOf(end);
             if (s === -1 || e === -1 || e < s) {
@@ -70,19 +70,17 @@ jobs:
               }
             }
 
-      - name: Create Pull Request
+      - name: Commit & Push (rebase)
         if: steps.apply.outputs.changed == 'true'
-        uses: peter-evans/create-pull-request@v6
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          branch: auto/readme-projects
-          commit-message: "chore: update recent projects (daily)"
-          title: "chore: update recent projects (daily)"
-          body: |
-            This PR updates the auto-generated **Recent Projects** section in the profile README.
+        run: |
+          set -e
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-            - Source: GitHub API (public repos, latest updated)
-            - Count: 5
-            - Safe: PR-based to avoid push races on `main`
-          base: main
-          delete-branch: true
+          git add README.md
+          git commit -m "chore: update recent projects (daily)"
+
+          # Rebase gegen aktuellen Remote-Stand, dann pushen
+          git fetch origin main
+          git pull --rebase origin main
+          git push origin HEAD:main
