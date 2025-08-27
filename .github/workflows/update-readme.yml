@@ -2,7 +2,7 @@ name: Update Profile README (Recent Projects & Top Languages)
 
 on:
   schedule:
-    - cron: "17 6 * * *"   # täglich 06:17 UTC
+    - cron: "0 */3 * * *"   # alle 3 Stunden
   workflow_dispatch:
   push:
     paths:
@@ -26,30 +26,37 @@ jobs:
           script: |
             const username = context.repo.owner;
 
-            // Repos holen
+            // Repos holen (öffentlich), 100 reichen idR aus
             const { data: repos } = await github.rest.repos.listForUser({
               username,
               per_page: 100,
-              sort: "updated"
+              sort: "updated" // nur Default – wir sortieren gleich selbst robuster
             });
 
-            // Öffentliche, keine Forks, nicht das Profil-Repo
+            // Filter: keine Forks/Privat/Profil-Repo
             const filtered = repos.filter(r =>
               !r.fork && !r.private && r.name.toLowerCase() !== username.toLowerCase()
             );
 
-            // Neueste Projekte (Top 5)
-            const top5 = filtered.slice(0, 5);
-            const projects = top5.length
-              ? top5.map(r => {
+            // Helper: robustes Zeitfeld wählen
+            function lastActivity(r) {
+              return new Date(r.pushed_at || r.updated_at || r.created_at || 0).getTime();
+            }
+
+            // Neueste Projekte: nach letzter Aktivität sortieren
+            const newest = [...filtered].sort((a,b) => lastActivity(b) - lastActivity(a)).slice(0, 5);
+
+            const projects = newest.length
+              ? newest.map(r => {
                   const desc = r.description ? ` — ${r.description.replace(/\r?\n/g," ").trim()}` : "";
                   const star = r.stargazers_count ? ` ★${r.stargazers_count}` : "";
-                  const upd = new Date(r.pushed_at).toISOString().slice(0,10);
-                  return `- [${r.name}](${r.html_url})${desc} _(updated ${upd})_${star}`;
+                  const d = new Date(r.pushed_at || r.updated_at || r.created_at);
+                  const ymd = isNaN(d) ? "" : d.toISOString().slice(0,10);
+                  return `- [${r.name}](${r.html_url})${desc}${ymd ? ` _(updated ${ymd})_` : ""}${star}`;
                 }).join("\n")
               : "*Noch keine öffentlichen Repos*";
 
-            // Top-Sprachen (primary language gezählt)
+            // Top-Sprachen (nach primary language gezählt)
             const counts = {};
             filtered.forEach(r => { if (r.language) counts[r.language] = (counts[r.language]||0)+1; });
             const palette = ["1f6feb","db61a2","7ee787","ffa657","d2a8ff","79c0ff"];
@@ -67,7 +74,7 @@ jobs:
             core.setOutput("projects", projects);
             core.setOutput("langs", langs);
 
-      - name: Update README with Node (safe replace)
+      - name: Update README (safe replace)
         uses: actions/github-script@v7
         env:
           PROJECTS: ${{ steps.build.outputs.projects }}
