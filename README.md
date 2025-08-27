@@ -49,11 +49,24 @@ Eine moderne Web-Version meines CVs, optimiert für Bewerbungen und einfach teil
   ![Repo Size](https://img.shields.io/github/repo-size/laurinhuebner/ads2letter-webapp)  
   *Einfache Android-App, die ads2letter aus dem lokalen Netzwerk heraus nutzbar macht – ohne den Umweg über den Browser.*
 
-### Server & Monitoring
+### Server, Monitoring & Netzwerk
 - [**server-dashboard**](https://github.com/laurinhuebner/server-dashboard)  
   ![Last Commit](https://img.shields.io/github/last-commit/laurinhuebner/server-dashboard)  
   ![Repo Size](https://img.shields.io/github/repo-size/laurinhuebner/server-dashboard)  
-  *Eigenes Web-Dashboard auf Debian-Server: zeigt Systeminfos, Logs & Services.*  
+  *Eigenes Web-Dashboard auf Debian-Server: Systemübersicht, Logs, Services, Docker & mehr.*  
+
+- [**lan-scanner**](https://github.com/laurinhuebner/lan-scanner)  
+  ![Last Commit](https://img.shields.io/github/last-commit/laurinhuebner/lan-scanner)  
+  ![Repo Size](https://img.shields.io/github/repo-size/laurinhuebner/lan-scanner)  
+  *Webtool (Flask) zum Scannen eines Subnetzes – findet aktive Hosts, prüft Standardports & speichert Ergebnisse in SQLite.*  
+  🔗 **Integration:** Der LAN-Scanner ist **im Server-Dashboard eingebettet** (iFrame / optional via Reverse-Proxy).
+
+---
+
+## 🔄 Automatisch aktualisierte Projekte
+<!-- RECENT_PROJECTS_START -->
+*(wird automatisch befüllt)*
+<!-- RECENT_PROJECTS_END -->
 
 ---
 
