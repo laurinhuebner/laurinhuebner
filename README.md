@@ -10,25 +10,6 @@ Mein Schwerpunkt liegt auf **praktischen Lösungen mit Linux, Python & modernen 
 
 ---
 
-## 🚀 Lebenslauf Online
-👉 [**Hier geht es direkt zu meinem interaktiven Lebenslauf**](https://laurinhuebner.github.io/resume/)  
-Eine moderne Web-Version meines CVs, optimiert für Bewerbungen und einfach teilbar.
-
----
-
-## 🛠️ Technologien & Tools
-![Linux](https://img.shields.io/badge/Linux-FCC624?logo=linux&logoColor=black)
-<p align="center">
-  <img src="assets/banner.png" alt="Laurin Hübner Banner" width="100%" />
-</p>
-
-# 👋 Hi, ich bin Laurin Hübner  
-
-Willkommen auf meinem GitHub-Profil!  
-Hier findest du meine Projekte rund um **IT, Automatisierung, Web, Server & Bewerbungs-Tools**.  
-Mein Schwerpunkt liegt auf **praktischen Lösungen mit Linux, Python & modernen Technologien**.  
-
----
 
 ## 🚀 Lebenslauf Online
 👉 [**Hier geht es direkt zu meinem interaktiven Lebenslauf**](https://laurinhuebner.github.io/resume/)  
