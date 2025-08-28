@@ -66,11 +66,11 @@ Eine moderne Web-Version meines CVs, optimiert für Bewerbungen und einfach teil
 ## 🔄 Automatisch aktualisierte Projekte
 <!-- RECENT_PROJECTS_START -->
 - [**laurinhuebner**](https://github.com/laurinhuebner/laurinhuebner)  
-  *Keine Beschreibung*
+  *Persönliches GitHub-Profil: interaktive Projekte, Web‑CV, KI‑Tools, Server‑Monitoring & Netzwerk-Scanner*
+- [**lan-scanner**](https://github.com/laurinhuebner/lan-scanner)  
+  *Webtool (Flask) zum Scannen eines Subnetzes – findet aktive Hosts, prüft Standardports & speichert Ergebnisse in SQLite.*
 - [**server-dashboard**](https://github.com/laurinhuebner/server-dashboard)  
   *🌐 Web-Dashboard für System-Monitoring (CPU, RAM, Uptime, Netzwerk, Logs & Dark Mode). Erstellt mit Flask & psutil.*
-- [**lan-scanner**](https://github.com/laurinhuebner/lan-scanner)  
-  *Keine Beschreibung*
 - [**resume**](https://github.com/laurinhuebner/resume)  
   *Mein interaktiver Online-Lebenslauf – gebaut mit GitHub Pages, jederzeit abrufbar.*
 - [**ads2letter-webapp**](https://github.com/laurinhuebner/ads2letter-webapp)  
