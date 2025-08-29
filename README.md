@@ -65,16 +65,16 @@ Eine moderne Web-Version meines CVs, optimiert für Bewerbungen und einfach teil
 
 ## 🔄 Automatisch aktualisierte Projekte
 <!-- RECENT_PROJECTS_START -->
-- [**laurinhuebner**](https://github.com/laurinhuebner/laurinhuebner)  
-  *Persönliches GitHub-Profil: interaktive Projekte, Web‑CV, KI‑Tools, Server‑Monitoring & Netzwerk-Scanner*
-- [**lan-scanner**](https://github.com/laurinhuebner/lan-scanner)  
-  *Webtool (Flask) zum Scannen eines Subnetzes – findet aktive Hosts, prüft Standardports & speichert Ergebnisse in SQLite.*
+- [**ads2letter**](https://github.com/laurinhuebner/ads2letter)  
+  *KI-gestützte App für Bewerbungen: wandelt Jobs in Anschreiben um, inkl. integriertem Crawler für aktuelle Stellenangebote.*
+- [**crawler**](https://github.com/laurinhuebner/crawler)  
+  *Der ads2letter-Crawler automatisiert die Jobsuche: Er sammelt aktuelle Stellenanzeigen, speichert sie und macht sie in der WebApp nutzbar. So können passende Angebote direkt für Bewerbungen übernommen werden.*
+- [**secrets-manager**](https://github.com/laurinhuebner/secrets-manager)  
+  *Keine Beschreibung*
 - [**server-dashboard**](https://github.com/laurinhuebner/server-dashboard)  
   *🌐 Web-Dashboard für System-Monitoring (CPU, RAM, Uptime, Netzwerk, Logs & Dark Mode). Erstellt mit Flask & psutil.*
-- [**resume**](https://github.com/laurinhuebner/resume)  
-  *Mein interaktiver Online-Lebenslauf – gebaut mit GitHub Pages, jederzeit abrufbar.*
-- [**ads2letter-webapp**](https://github.com/laurinhuebner/ads2letter-webapp)  
-  *Android-App zum schnellen Zugriff auf meine KI-Bewerbungssoftware ads2letter im Heimnetzwerk.*
+- [**lan-scanner**](https://github.com/laurinhuebner/lan-scanner)  
+  *Webtool (Flask) zum Scannen eines Subnetzes – findet aktive Hosts, prüft Standardports & speichert Ergebnisse in SQLite.*
 <!-- RECENT_PROJECTS_END -->
 
 ---
