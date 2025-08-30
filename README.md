@@ -65,6 +65,8 @@ Eine moderne Web-Version meines CVs, optimiert für Bewerbungen und einfach teil
 
 ## 🔄 Automatisch aktualisierte Projekte
 <!-- RECENT_PROJECTS_START -->
+- [**laurinhuebner**](https://github.com/laurinhuebner/laurinhuebner)  
+  *Persönliches GitHub-Profil: interaktive Projekte, Web‑CV, KI‑Tools, Server‑Monitoring & Netzwerk-Scanner*
 - [**ads2letter**](https://github.com/laurinhuebner/ads2letter)  
   *KI-gestützte App für Bewerbungen: wandelt Jobs in Anschreiben um, inkl. integriertem Crawler für aktuelle Stellenangebote.*
 - [**crawler**](https://github.com/laurinhuebner/crawler)  
@@ -73,8 +75,6 @@ Eine moderne Web-Version meines CVs, optimiert für Bewerbungen und einfach teil
   *Keine Beschreibung*
 - [**server-dashboard**](https://github.com/laurinhuebner/server-dashboard)  
   *🌐 Web-Dashboard für System-Monitoring (CPU, RAM, Uptime, Netzwerk, Logs & Dark Mode). Erstellt mit Flask & psutil.*
-- [**lan-scanner**](https://github.com/laurinhuebner/lan-scanner)  
-  *Webtool (Flask) zum Scannen eines Subnetzes – findet aktive Hosts, prüft Standardports & speichert Ergebnisse in SQLite.*
 <!-- RECENT_PROJECTS_END -->
 
 ---
