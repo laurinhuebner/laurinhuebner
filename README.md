@@ -33,7 +33,7 @@ Eine moderne Web-Version meines CVs, optimiert für Bewerbungen und einfach teil
   ![Repo Size](https://img.shields.io/github/repo-size/laurinhuebner/Bewerbungs-Generator)  
   *Interne Streamlit-WebApp: erstellt individuelle Anschreiben & Lebensläufe auf Basis von Stellenanzeigen.*  
   📸 Screenshot:  
-  ![Screenshot](/Bewerbungs-Generator/screenshots/mobile.png)
+  ![Screenshot](https://raw.githubusercontent.com/laurinhuebner/Bewerbungs-Generator/main/screenshots/mobile.png)
 
 - [**Lebenslauf Online**](https://laurinhuebner.github.io/resume/)  
   ![Last Commit](https://img.shields.io/github/last-commit/laurinhuebner/resume)  
