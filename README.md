@@ -28,6 +28,13 @@ Eine moderne Web-Version meines CVs, optimiert für Bewerbungen und einfach teil
 ## 📂 Projekte
 
 ### Bewerbungs- & CV-Tools
+- [**Bewerbungs-Generator (Anschreiben + Lebenslauf)**](https://github.com/laurinhuebner/ads2letter-webapp)  
+  ![Last Commit](https://img.shields.io/github/last-commit/laurinhuebner/ads2letter-webapp)  
+  ![Repo Size](https://img.shields.io/github/repo-size/laurinhuebner/ads2letter-webapp)  
+  *Interne Streamlit-WebApp: erstellt individuelle Anschreiben & Lebensläufe auf Basis von Stellenanzeigen.*  
+  📸 Screenshot:  
+  ![Screenshot](screenshots/mobile.png)
+
 - [**Lebenslauf Online**](https://laurinhuebner.github.io/resume/)  
   ![Last Commit](https://img.shields.io/github/last-commit/laurinhuebner/resume)  
   ![Repo Size](https://img.shields.io/github/repo-size/laurinhuebner/resume)  
