@@ -72,16 +72,16 @@ Eine moderne Web-Version meines CVs, optimiert für Bewerbungen und einfach teil
 
 ## 🔄 Automatisch aktualisierte Projekte
 <!-- RECENT_PROJECTS_START -->
-- [**ads2letter**](https://github.com/laurinhuebner/ads2letter)  
-  *KI-gestützte App für Bewerbungen: wandelt Jobs in Anschreiben um, inkl. integriertem Crawler für aktuelle Stellenangebote. Quellcode privat, Showcase mit Screenshots und Funktionsbeschreibung.*
+- [**resume**](https://github.com/laurinhuebner/resume)  
+  *Mein interaktiver Online-Lebenslauf – gebaut mit GitHub Pages, jederzeit abrufbar.*
 - [**laurinhuebner**](https://github.com/laurinhuebner/laurinhuebner)  
   *Persönliches GitHub-Profil: interaktive Projekte, Web‑CV, KI‑Tools, Server‑Monitoring & Netzwerk-Scanner*
+- [**ads2letter**](https://github.com/laurinhuebner/ads2letter)  
+  *KI-gestützte App für Bewerbungen: wandelt Jobs in Anschreiben um, inkl. integriertem Crawler für aktuelle Stellenangebote. Quellcode privat, Showcase mit Screenshots und Funktionsbeschreibung.*
 - [**Bewerbungs-Generator**](https://github.com/laurinhuebner/Bewerbungs-Generator)  
   *Lokale WebApp zur automatisierten Erstellung von Bewerbungsunterlagen. Mit Anschreiben-Generator, interaktivem Lebenslauf-Editor, PDF/DOCX-Export und Android-WebView-App für mobilen Zugriff. Quellcode privat, Showcase mit Screenshots und Funktionsbeschreibung.*
 - [**crawler**](https://github.com/laurinhuebner/crawler)  
   *Der ads2letter-Crawler automatisiert die Jobsuche: Er sammelt aktuelle Stellenanzeigen, speichert sie und macht sie in der WebApp nutzbar. So können passende Angebote direkt für Bewerbungen übernommen werden.*
-- [**secrets-manager**](https://github.com/laurinhuebner/secrets-manager)  
-  *Keine Beschreibung*
 <!-- RECENT_PROJECTS_END -->
 
 ---
