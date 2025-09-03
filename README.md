@@ -61,7 +61,7 @@ Eine moderne Web-Version meines CVs, optimiert für Bewerbungen und einfach teil
   ![Repo Size](https://img.shields.io/github/repo-size/laurinhuebner/Audio-Transcriber-App)  
   Lokales Transkriptions-Tool: WebApp + Android-WebView-App. Ermöglicht Aufnehmen oder Hochladen von Audio und automatische Umwandlung in Text. Proof of Concept und Showcase.  
   📸 Screenshot:  
-  ![Screenshot](https://raw.githubusercontent.com/laurinhuebner/Audio-Transcriber-App/main/screenshots/mobile.png)
+  ![Screenshot](https://raw.githubusercontent.com/laurinhuebner/Audio-Transcriber-App/main/screenshots/ui.png)
 
 
 ### Server, Monitoring & Netzwerk
