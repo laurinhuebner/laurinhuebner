@@ -56,6 +56,14 @@ Eine moderne Web-Version meines CVs, optimiert für Bewerbungen und einfach teil
   ![Repo Size](https://img.shields.io/github/repo-size/laurinhuebner/ads2letter-webapp)  
   *Einfache Android-App, die ads2letter aus dem lokalen Netzwerk heraus nutzbar macht – ohne den Umweg über den Browser.*
 
+- [**Audio-Transcriber-App**](https://github.com/laurinhuebner/Audio-Transcriber-App)  
+  ![Last Commit](https://img.shields.io/github/last-commit/laurinhuebner/Audio-Transcriber-App)  
+  ![Repo Size](https://img.shields.io/github/repo-size/laurinhuebner/Audio-Transcriber-App)  
+  Lokales Transkriptions-Tool: WebApp + Android-WebView-App. Ermöglicht Aufnehmen oder Hochladen von Audio und automatische Umwandlung in Text. Proof of Concept und Showcase.  
+  📸 Screenshot:  
+  ![Screenshot](https://raw.githubusercontent.com/laurinhuebner/Audio-Transcriber-App/main/screenshots/mobile.png)
+
+
 ### Server, Monitoring & Netzwerk
 - [**server-dashboard**](https://github.com/laurinhuebner/server-dashboard)  
   ![Last Commit](https://img.shields.io/github/last-commit/laurinhuebner/server-dashboard)  
