@@ -72,10 +72,10 @@ Eine moderne Web-Version meines CVs, optimiert für Bewerbungen und einfach teil
 
 ## 🔄 Automatisch aktualisierte Projekte
 <!-- RECENT_PROJECTS_START -->
-- [**resume**](https://github.com/laurinhuebner/resume)  
-  *Mein interaktiver Online-Lebenslauf – gebaut mit GitHub Pages, jederzeit abrufbar.*
 - [**laurinhuebner**](https://github.com/laurinhuebner/laurinhuebner)  
   *Persönliches GitHub-Profil: interaktive Projekte, Web‑CV, KI‑Tools, Server‑Monitoring & Netzwerk-Scanner*
+- [**resume**](https://github.com/laurinhuebner/resume)  
+  *Mein interaktiver Online-Lebenslauf – gebaut mit GitHub Pages, jederzeit abrufbar.*
 - [**ads2letter**](https://github.com/laurinhuebner/ads2letter)  
   *KI-gestützte App für Bewerbungen: wandelt Jobs in Anschreiben um, inkl. integriertem Crawler für aktuelle Stellenangebote. Quellcode privat, Showcase mit Screenshots und Funktionsbeschreibung.*
 - [**Bewerbungs-Generator**](https://github.com/laurinhuebner/Bewerbungs-Generator)  
