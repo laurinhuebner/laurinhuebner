@@ -80,10 +80,10 @@ Eine moderne Web-Version meines CVs, optimiert für Bewerbungen und einfach teil
 
 ## 🔄 Automatisch aktualisierte Projekte
 <!-- RECENT_PROJECTS_START -->
-- [**resume**](https://github.com/laurinhuebner/resume)  
-  *Mein interaktiver Online-Lebenslauf – gebaut mit GitHub Pages, jederzeit abrufbar.*
 - [**laurinhuebner**](https://github.com/laurinhuebner/laurinhuebner)  
   *Persönliches GitHub-Profil: interaktive Projekte, Web‑CV, KI‑Tools, Server‑Monitoring & Netzwerk-Scanner*
+- [**resume**](https://github.com/laurinhuebner/resume)  
+  *Mein interaktiver Online-Lebenslauf – gebaut mit GitHub Pages, jederzeit abrufbar.*
 - [**Audio-Transcriber-App**](https://github.com/laurinhuebner/Audio-Transcriber-App)  
   *Ein lokales Transkriptions-Tool, bestehend aus einer WebApp und einer Android-App (WebView).   Die Anwendung ermöglicht das Aufnehmen oder Hochladen von Audio und die anschließende automatische Umwandlung in Text.   Sie ist als Proof of Concept und Portfolio-Projekt gedacht und läuft ausschließlich im internen Netzwerk.*
 - [**ads2letter**](https://github.com/laurinhuebner/ads2letter)  
