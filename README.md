@@ -80,6 +80,8 @@ Eine moderne Web-Version meines CVs, optimiert für Bewerbungen und einfach teil
 
 ## 🔄 Automatisch aktualisierte Projekte
 <!-- RECENT_PROJECTS_START -->
+- [**netviz**](https://github.com/laurinhuebner/netviz)  
+  *Keine Beschreibung*
 - [**laurinhuebner**](https://github.com/laurinhuebner/laurinhuebner)  
   *Persönliches GitHub-Profil: interaktive Projekte, Web‑CV, KI‑Tools, Server‑Monitoring & Netzwerk-Scanner*
 - [**resume**](https://github.com/laurinhuebner/resume)  
@@ -88,8 +90,6 @@ Eine moderne Web-Version meines CVs, optimiert für Bewerbungen und einfach teil
   *Ein lokales Transkriptions-Tool, bestehend aus einer WebApp und einer Android-App (WebView).   Die Anwendung ermöglicht das Aufnehmen oder Hochladen von Audio und die anschließende automatische Umwandlung in Text.   Sie ist als Proof of Concept und Portfolio-Projekt gedacht und läuft ausschließlich im internen Netzwerk.*
 - [**ads2letter**](https://github.com/laurinhuebner/ads2letter)  
   *KI-gestützte App für Bewerbungen: wandelt Jobs in Anschreiben um, inkl. integriertem Crawler für aktuelle Stellenangebote. Quellcode privat, Showcase mit Screenshots und Funktionsbeschreibung.*
-- [**Bewerbungs-Generator**](https://github.com/laurinhuebner/Bewerbungs-Generator)  
-  *Lokale WebApp zur automatisierten Erstellung von Bewerbungsunterlagen. Mit Anschreiben-Generator, interaktivem Lebenslauf-Editor, PDF/DOCX-Export und Android-WebView-App für mobilen Zugriff. Quellcode privat, Showcase mit Screenshots und Funktionsbeschreibung.*
 <!-- RECENT_PROJECTS_END -->
 
 ---
