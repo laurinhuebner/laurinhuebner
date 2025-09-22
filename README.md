@@ -80,10 +80,10 @@ Eine moderne Web-Version meines CVs, optimiert für Bewerbungen und einfach teil
 
 ## 🔄 Automatisch aktualisierte Projekte
 <!-- RECENT_PROJECTS_START -->
-- [**netviz**](https://github.com/laurinhuebner/netviz)  
-  *Keine Beschreibung*
 - [**laurinhuebner**](https://github.com/laurinhuebner/laurinhuebner)  
   *Persönliches GitHub-Profil: interaktive Projekte, Web‑CV, KI‑Tools, Server‑Monitoring & Netzwerk-Scanner*
+- [**netviz**](https://github.com/laurinhuebner/netviz)  
+  *Keine Beschreibung*
 - [**resume**](https://github.com/laurinhuebner/resume)  
   *Mein interaktiver Online-Lebenslauf – gebaut mit GitHub Pages, jederzeit abrufbar.*
 - [**Audio-Transcriber-App**](https://github.com/laurinhuebner/Audio-Transcriber-App)  
